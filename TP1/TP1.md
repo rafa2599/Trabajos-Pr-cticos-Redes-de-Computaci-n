@@ -11,7 +11,7 @@
 |-------------------------|---------------------------------|
 | Benavides María Candela |                                 |
 | Fariñas Rafael          |                                 |
-| Melia Nicolas           |                                 |
+| Melia Nicolas           |nicolas.melia@mi.unc.edu.ar      |
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
 
 
