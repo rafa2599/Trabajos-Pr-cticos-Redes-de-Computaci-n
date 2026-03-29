@@ -54,8 +54,16 @@ Nuestro grupo al ser Router, no generamos paquetes, nuestra función era reenvia
 
 ## 5. Reflexiones y documentación
 a. La IP destino se mantiene constante mientras que la MAC cambia en cada salto debido a que son dos niveles de direccionamiento con propósitos distintos. La IP identifica al destino final de extremo a extremo y no tiene por qué cambiar en ningún momento del recorrido. Por otro lado, la MAC es un direccionamiento físico que solo tiene sentido dentro de un enlace local, es decir, cada vez que el paquete pasa de un router al siguiente, se construye un frame nuevo para ese tramo específico, con las MACs de los dos dispositivos que están en ese enlace.
+
+
 b. El host busca la MAC del gateway porque ARP solo funciona dentro de la misma red local. Un host no puede enviar un ARP request a una red remota, ese broadcast no cruza routers. Entonces lo que hace es mandarle el paquete a su gateway, que sí está en su misma LAN y cuya MAC puede resolver.
+
+
 c. El modelo de ruteo hop-by-hop tiene como ventaja que cada router solo necesita conocer su entorno inmediato, no el mapa completo de Internet, haciendo que la red sea escalable: si cambia una ruta en algún lado, solo se actualizan los routers afectados, no todos. A su vez, permite redundancia, ya que si un camino cae, cada router puede redirigir por otro sin que el resto de la red lo sepa.
+
+
 d. Es necesario reconstruir el frame Ethernet en cada salto ya que tiene alcance local, es decir, que la función es entregar el paquete en un tramo específico entre dos dispositivos directamente conectaods. Una vez que el paquete llega al router destino, ese frame se descarta y el router construye frame Ethernet para el siguiente tramo, con las MACs correspondientes a ese enlace.
 Si un router intentara reenviar exactamente el mismo frame, la MAC destino seguiría siendo la suya propia y ningún otro dispositivo la aceptaría o llegaría a un dispositivo equivocado.
+
+
 e. El campo TTL previene que un paquete quede circulando indefinidamente en la red. Se podría dar el caso en el cuál por error las tablas de ruteo formen un ciclo y el paquete quedaría rebotando para siempre consumiendo ancho de banda. Con ayuda del campo TTL, cada router lo decrementa en 1 y cuando llega a 0 el paquete se descarta y se notifica al origen. Sin este mecanismo, un solo ciclo de ruteo mal configurado podría satura enlaces enteros con paquetes que nunca llegan a destino.
