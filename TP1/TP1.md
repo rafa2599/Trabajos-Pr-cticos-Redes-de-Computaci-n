@@ -10,7 +10,7 @@
 | Nombre                  | Correo Electrónico              | 
 |-------------------------|---------------------------------|
 | Benavides María Candela |                                 |
-| Fariñas Rafael          |                                 |
+| Fariñas Rafael          |rafael.farinas@mi.unc.edu.ar     |
 | Melia Nicolas           |nicolas.melia@mi.unc.edu.ar      |
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
 
