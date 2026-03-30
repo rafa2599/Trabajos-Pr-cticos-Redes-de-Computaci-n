@@ -9,7 +9,7 @@
 
 | Nombre                  | Correo Electrónico              | 
 |-------------------------|---------------------------------|
-| Benavides María Candela |                                 |
+| Benavides María Candela |candela.benavides@mi.unc.edu.ar |
 | Fariñas Rafael          |rafael.farinas@mi.unc.edu.ar     |
 | Melia Nicolas           |nicolas.melia@mi.unc.edu.ar      |
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
@@ -67,3 +67,70 @@ Si un router intentara reenviar exactamente el mismo frame, la MAC destino segui
 
 
 e. El campo TTL previene que un paquete quede circulando indefinidamente en la red. Se podría dar el caso en el cuál por error las tablas de ruteo formen un ciclo y el paquete quedaría rebotando para siempre consumiendo ancho de banda. Con ayuda del campo TTL, cada router lo decrementa en 1 y cuando llega a 0 el paquete se descarta y se notifica al origen. Sin este mecanismo, un solo ciclo de ruteo mal configurado podría satura enlaces enteros con paquetes que nunca llegan a destino.
+
+
+### Parte 2. Inyección y detección de errores 
+En esta segunda parte del trabajo práctico estudiamos e implementamos técnicas de Detección y Corrección de Errores (EDAC).El flujo de datos en las redes de computadoras esta sujeto a diversos factores de interferencias que pueden alterar la información original, por ello, es necesario comprender como los dispositivos (finales o intermedios) interactúan con la **payload** (carga útil) de los paquetes 
+
+ #### Definiciones 
+
+ **EDAC(Error Detection and Corretion)* : Es el conjunto de técnicas utilizadas para garantizar la integridad de los datos (garantía de que la información recibida es idéntica a la enviada) durante su transmisión a través de canales no confiables 
+ - Detección: permite saber si el mensaje llegó alterado
+ - Corrección: permite reconstruir el mensaje original sin pedir el reenvío, esto se logra mediante bits de redundancia 
+   
+**Gateway*: es un dispositivo que conecta redes con arquitecturas o protocolos diferentes, es el encargado de hacer una "traducción" de protocolos en las capas superiores 
+
+ - Default Gateway: es la dirección del router al que un host envía los paquetes cuando la dirección de destino no esta en su propia red local.
+ - Router No Default Gateway: router intermedio que solo encamina paquetes entre subredes internas, sin gestionar la salida directa de los dispositivos finales(host).
+   Sin LAN debajo: significa que no tiene computadoras conectadas directamente a sus puertos de usuario. Solo tiene conexiones hacia otros routers 
+
+#### Desarrollo de la actividad
+
+Durante la realización de la actividad, eramos 4 grupos (entre los que nos mandamos los paquetes) y el profesor cumplió el rol de Router no default gateway, quien podía "romper" algun paquete, modificando uno o más bit de la payload
+
+El rol de los grupos era enviar y recibir mensajes e identificar si ese paquete fue modificado o no. La IP de nuestro grupo era `10.0.4.0` y para enviar el paquete usamos como técnica de EDAC como la técnica de Paridad Par o Técnica de Redundancia por XOR (LRC).
+A nuestro grupo le tocó implementar la técnica de Paridad Par para el envio del paquete. Para lo que dividimos nuestro payload `a382` en nibbles, quedando como `1010- 0011-1000-0010`, dandonos que nuestro EDAC es 3, siendo 3 el resultado de la suma de paridad de cada nibble. Para completar el envio, pusimos en el mensaje (papel), la IP de nuestro grupo y la de destino, el payload y el EDAC. Armado el mensaje, fue enviado al Router No Default Gateway (profesor).
+
+Luego, otro de los grupos, nos enviaron un paquete, el cual teniamos que verificar que sea legitimo el payload. Para esto, usamos la Técnica de Redundancia por XOR. 
+El payload recibido fue `E520` y el `EDAC 1000`, para comprobar que el paquete no haya sido corrompido, lo pasamos a binario, quedando: `1110-0101-0010-0000`. Para aplicar la técnica anteriormente mencionada, agarramos el primer nibble XOR con el segundo nibble, al resultado aplicamos XOR con el tercer nibble y asi sucesivamente.  
+##### Resultado de la Técnica de Redundancia por XOR 
+payload: 
+
+         E `1110`
+
+         5 `0101`
+         
+         2 `0010`
+         
+         0 `0000` 
+         
+EDAC : 1000 
+Tabla XOR 
+
+|Entrada A|Entrada B|Resultado XOR|
+|:---:|:---:|:---:| 
+|0|0|0|
+|0|1|1|
+|1|0|1|
+|1|1|0| 
+
+
+**Aplicación de la técnica* : 
+
+|Pasos|Operación | A | B| Rsultado
+|:---:|:---:|:---:|:---:|:---:|   
+|1|nibble 1 XOR nibble 2|1110|0101|1011|
+|2|resultado XOR nibble3|1011|010| 1001|
+|3|resultado XOR nibble 4|1001|0000 |**1001**|
+
+
+**Análisis del resultado* 
+|EDAC|Resultado de la técnica|Conclusión|
+|:---:|:---:|:---:|
+|1000|1001| Paquete corrompido (alteración en la carga útil)|
+
+Al comparar el EDAC recibido con el resultado de la técnica calculada, pudimos observar que los valores no coinciden por lo que podemos concluir que la payload fue alterada durante su pasaje por el Router, perdiendo su integridad original. 
+
+Como conclusión llegamos a que el desarrollo de este laboratorio nos permitió comprobar la importancia de los mecanismos de integridad de datos en una red. Mediante la implementación de técnicas de EDAC(Paridad Par y XOR), logrando validar que el canal de transmisión no es 100% confiable. Sin estas herramientas, las modificaciones en los bits pasarian inadvertidas, comprometiendo la validez de la información final 
+
+
