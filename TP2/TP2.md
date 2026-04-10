@@ -274,4 +274,3 @@ Respuesta desde 192.168.2.11: bytes=32 tiempo=1ms TTL=64
 La conectividad fue exitosa en la mayoría de los paquetes, con tiempos de respuesta de entre 1 ms y 7 ms. Se observaron algunos timeouts y un mensaje de "host de destino inaccesible" proveniente de `192.168.2.14` durante un período intermedio. Esto puede atribuirse a una desconexión momentánea de algún cable o a la reconvergencia del protocolo Spanning Tree al conectar o desconectar equipos durante la práctica. La conectividad se restableció automáticamente.
 
 ![image](https://hackmd.io/_uploads/HJ_r2unsWx.png)
->FALTA FOTO DE COMPUTADORAS CONECTADAS AL SWITCH
