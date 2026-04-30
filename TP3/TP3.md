@@ -15,10 +15,37 @@
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
 
 
+### 1.  
+#### a. ¿Qué es SSH y qué problema resuelve?
 
+SSH (Secure Shell) es un protocolo de red que permite establecer conexiones seguras entre dos equipos. Surge como reemplazo de protocolos anteriores como Telnet, rlogin o FTP, que transmitían toda la información incluyendo contraseñas y datos en texto plano, lo que los hacía vulnerables a intercepción (sniffing) y ataques de tipo man-in-the-middle.
+SSH proporciona tres cosas: autenticación del servidor y del cliente, cifrado de toda la comunicación, e integridad de los datos.
 
+#### b. Diferencias entre autenticación y cifrado
 
+Las diferencias entre autenticación y cifrado son: 
 
+- Autenticación: es el proceso de verificar la identidad de las partes que participan en la comunicación.
+- Cifrado: es el proceso de transformar los datos en un formato ininteligible para cualquier tercero que intercepte la comunicación, garantizando la confidencialidad.
+
+La diferencia entre ambos que la autenticación protege la suplantación de identidad, mientras que el cifrado protege contra la lectura no autorizada del contenido. 
+
+### c. ¿Qué es una clave pública y una clave privada?
+
+La clave pública es la que se comparte libremente y puede ser conocida por cualquiera, mientras que la clave privada es secreta y solo la posee su dueño.
+
+Esto permite dos funciones principales: que el emisor cifre el mensaje con la clave pública del destinatario, de modo que solo este puede descifralo con su clave privada, garantizando confidencialidad. Para garantizar autenticación, el emisor cifra o firma con su clave privada, y el receptor verifica con la clave pública correspondiente que el mensaje proviene de quien dice ser.
+
+### d. ¿Por qué la clave privada no debe compartirse?
+
+La clave privada no debe compartirse ya que es el elemento que garantiza tanto la identidad del propietario como la confidencialidad de los mensajes dirigidos a él. En el caso que de un tercero obtuviera la clave privada, podría suplantar la identidad del propietario firmando mensajes en su nombre, así como descrifrar toda la información que haya sido cifrada con la clave pública correspondiente.
+
+#### e. ¿Qué ventajas tienen las claves SSH frente a contraseñas?
+
+Las claves SSH ofrecen varias ventajas frente a las contraseñas.
+- Son seguras ya que consisten en pares de claves criptográficas de gran longitud, haciendo que sean imposibles de adivinar mediante ataques de fuerza bruta, a diferencia de las contraseñas que suelen ser más cortas y vulnerables a este tipo de ataques.
+- La clave privada nunca se transmite por la red durante la autenticación, mientras que las contraeñas sí deben enviarse al servidor, lo que las expone a una posible interceptación.
+- Eliman el factor humano de elegir contraseñas débiles o reutilizarlas en múltiples servicios.
 
 
 ### 2. Verificación de conexión SSH
