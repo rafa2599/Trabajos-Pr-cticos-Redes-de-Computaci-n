@@ -71,6 +71,8 @@ Tal como se observa en la imagen, el proceso de autenticación fue exitoso. El s
 
 
 #### Documentación del paso por la VM 
+Para finalizar la documentación del paso por la VM, creamos un directorio con el nombre del grupo usando el comando `mkdir`. Tal como se observa en la captura, al ejecutar el comando `ls`, verificamos que la carpeta `WanPiece` se creó exitosamente en el directorio de trabajo de la máquina virtual. 
+<img width="678" height="367" alt="image" src="https://github.com/user-attachments/assets/4db937f8-5ffa-43bd-838f-9ef2d99ae2f9" />
 
 
 ### 3. Captura del tráfico SSH 
