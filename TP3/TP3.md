@@ -15,7 +15,7 @@
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
 
 
-### 1.  
+### 1. Investigación conceptual
 #### a. ¿Qué es SSH y qué problema resuelve?
 
 SSH (Secure Shell) es un protocolo de red que permite establecer conexiones seguras entre dos equipos. Surge como reemplazo de protocolos anteriores como Telnet, rlogin o FTP, que transmitían toda la información incluyendo contraseñas y datos en texto plano, lo que los hacía vulnerables a intercepción (sniffing) y ataques de tipo man-in-the-middle.
