@@ -158,4 +158,22 @@ En paralelo, capturamos el tráfico con Wireshark. Al observar los paquetes, ide
 
 El contenido es completamente descifrable e intervenible. Como vemos en la segunda captura. Esto demuestra que el protocolo HTTP transmite la información en texto plano y no posee seguridad inherente. Todo el código fuente HTML viaja expuesto, lo que significa que cualquier atacante interceptando la red podría leerlo con facilidad o incluso modificarlo antes de que llegue al navegador destino. 
 
+### 6. The Silicon Heist: Hacking Apple Pay for $10,000
+
+El video presenta un experimento de ciberseguridad donde se logra **extraer 10,000 dólares de un iPhone bloqueado** mediante una vulnerabilidad técnica. Este ataque de tipo "man-in-the-middle" aprovecha la función **Express Transit Mode**, engañando al dispositivo para que procese transacciones de alto valor sin requerir biometría o contraseñas. El fallo ocurre específicamente al combinar el sistema operativo de **Apple con tarjetas Visa**, ya que estas últimas no siempre exigen una firma criptográfica adicional en transacciones en línea. A pesar de que este riesgo se hizo público en 2021, las empresas involucradas argumentan que el fraude a gran escala es **improbable en el mundo real** y ofrecen reembolsos como solución. Por ello, los expertos recomiendan a los usuarios **desactivar el modo de tránsito rápido** o utilizar proveedores distintos para mitigar cualquier riesgo financiero.
+
+Técnicamente, el ataque de "hombre en el medio" (Man-in-the-Middle o MITM) descrito en las fuentes funciona interceptando y alterando la comunicación inalámbrica entre un teléfono y un terminal de pago a través de un campo magnético compartido.
+
+De esta manera l video muestra un ataque MITM real que conecta directamente con lo trabajado en los tres TPs
+En el trabajo práctico 1 se nos  enseñó que los paquetes viajan hop a hop sin visión global del camino, y que un dispositivo intermedio puede interceptarlos. El Proxmark hace exactamente eso; se inserta entre el iPhone y el terminal como un "router malicioso" en la cadena.
+En el TP 2 se demostró con Wireshark que cualquier dispositivo en el medio puede capturar tráfico. El Proxmark es el equivalente NFC de ponerse en escucha en un switch.
+
+Por último en el TP 3 el experimento con netcat mostró que el tráfico sin cifrar es completamente legible y modificable en tránsito, igual que los bits de la transacción Visa. El servidor HTTP demostró que incluso el contenido puede intervenirse. SSH, en cambio, hacía el tráfico ininteligible — exactamente lo que le falta al canal NFC de Visa.
+
+ **b) Principio de confidencialidad**
+Los laboratorios demostraron que el tráfico no cifrado es tráfico público. Netcat y HTTP demostraron que cualquier observador en el camino (o en la misma red) puede leer y modificar el contenido. Esto aplica a cualquier protocolo que no cifre: HTTP, FTP, Telnet, y como muestra el video, ciertas implementaciones de pagos NFC. Por eso cifrar no es suficiente si no hay autenticación. Para ello se implementa la SSH, que  cifra el contenido y autentica que el otro extremo es quien dice ser mediante clave pública/privada.En el video, Visa en modo online omite la segunda parte, y eso es suficiente para que el ataque funcione.
+
+Por lo tanto, la solución para esto es usar protocolos que cifren y autentiquen (SSH, TLS/HTTPS, y en pagos, esquemas con firma criptográfica asimétrica como los que usa MasterCard)
+
+
 
