@@ -9,9 +9,9 @@
 
 | Nombre                  | Correo Electrónico              | 
 |-------------------------|---------------------------------|
-| Benavides María Candela | candela.benavides@mi.unc.edu.ar |
-| Fariñas Rafael          |                                 |
-| Melia Nicolas           |                                 |
+| Benavides María Candela |candela.benavides@mi.unc.edu.ar |
+| Fariñas Rafael          |rafael.farinas@mi.unc.edu.ar     |
+| Melia Nicolas           |nicolas.melia@mi.unc.edu.ar      |
 | Salinas Joaquín         |joaquin.salinas.874@mi.unc.edu.ar|
 
 
@@ -125,6 +125,37 @@ Si observamos la segunda imagen, en la sección que muestra el volcado hexadecim
 
 Esto demuestra que el protocolo TCP base transmite los datos en texto claro sin ninguna protección. A diferencia de lo que vimos con SSH, al no haber una capa de seguridad (como TLS/SSL) por encima, cualquier persona interceptando la red puede leer exactamente que nos estamos comunicando 
 
+#### b. 
+Para esta parte, repetimos la lógica del servidor anterior pero usando el protocolo UDP. Para esto, añadimos el flag `-u` en los comandos Netcat, tanto en el cliente como en el servidor. En las capturas adjuntas se puede observar cómo el cliente local envía exitosamente el mensaje y este es recibido por el servidor desplegado en la instancia de la nuba 
+<img width="678" height="369" alt="image" src="https://github.com/user-attachments/assets/aafd26ef-7b10-40d8-8a6b-4ae3f5515fa1" />
 
+<img width="678" height="369" alt="image" src="https://github.com/user-attachments/assets/462dcfbd-4a09-44ce-9121-b76ff033032f" />
+
+#### c. 
+Documentamos el ida y vuelta de un chat interactivo conectando dos máquinas virtuales distintas. Para esto, levantamos un servidor Netcat en el puerto 5555 de la VM 1. Luego, desde una terminal paralela conectada a la VM 5, iniciamos una conexión hacia la IP de la VM1 y enviamos los mensajes. En las imagenes se puede evidenciar la transmisión correcta de los datos entre ambas instancias virtualizadas de la nube 
+<img width="1600" height="211" alt="image" src="https://github.com/user-attachments/assets/53f3f1ec-36f7-47f4-baa9-28358b95c8fa" />
+(Servidor en la VM 1) 
+
+<img width="678" height="369" alt="image" src="https://github.com/user-attachments/assets/ab7e5164-cfe2-40ef-a2f3-7f71188fcb3a" />
+(Cliente en la VM 5).
+
+### 5.
+
+#### Despliegue y acceso 
+Desplegamos un servidor HTTP utilizando Python. Como podemos ver en la primera captura del navegador, logramos acceder exitosamente introduciendo la IP pública de nuestra VM y el puerto elegido `34.63.129.61:5555` en la barra de direcciones. En la pantalla esta nuestro archivo `index.html` personalizado 
+
+<img width="1361" height="681" alt="image" src="https://github.com/user-attachments/assets/a5174843-4881-4a6d-9f3b-4ff427a88dab" />
+
+#### Captura de tráfico 
+En paralelo, capturamos el tráfico con Wireshark. Al observar los paquetes, identificamos claramente la petición `GET / HTTP/1.1` generada por nuestro navegador al solicitar la página.
+
+<img width="1366" height="724" alt="image" src="https://github.com/user-attachments/assets/2795d4b9-709b-4eec-a430-18aaa795db7c" />
+(Paquetes en Wireshark) y 
+
+
+<img width="1366" height="724" alt="image" src="https://github.com/user-attachments/assets/954d38ca-7a21-4232-a9c5-4d498303d676" />
+
+
+El contenido es completamente descifrable e intervenible. Como vemos en la segunda captura. Esto demuestra que el protocolo HTTP transmite la información en texto plano y no posee seguridad inherente. Todo el código fuente HTML viaja expuesto, lo que significa que cualquier atacante interceptando la red podría leerlo con facilidad o incluso modificarlo antes de que llegue al navegador destino. 
 
 
